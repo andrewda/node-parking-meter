@@ -1,12 +1,13 @@
 {
   "name": "node-parking-meter",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pay for parking meters using Node.js",
   "main": "index.js",
   "author": "Andrew Dassonville",
   "license": "MIT",
   "dependencies": {
+    "eddystone-beacon": "^1.0.5",
     "handlebars": "^2.0.0",
-    "eddystone-beacon": "^1.0.5"
+    "stripe": "^4.4.0"
   }
 }
