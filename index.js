@@ -4,7 +4,13 @@ var beacon = require("eddystone-beacon");
 var handlebars = require("handlebars");
 var fs = require("fs");
 
-var baseURL = "baseURL";
+var options = {};
+
+try {
+	options = JSON.parse(fs.readFileSync('options.json', 'utf8'));
+} catch (err) {
+	throw err;
+}
 
 var layout = handlebars.compile(fs.readFileSync("./layout.html", "utf8"));
 
@@ -22,6 +28,6 @@ http.createServer(function (req, res) {
 
 	res.end(layout(data));
 
-}).listen(1337);
+}).listen(options.port);
 
-beacon.advertiseUrl(baseURL);
+beacon.advertiseUrl(options.url);
