@@ -1,4 +1,9 @@
 {
   "url": "http://example.com",
-  "port": 1337
+  "port": 80,
+  "mongodb": {
+    "database": "",
+    "username": "",
+    "password": ""
+  }
 }

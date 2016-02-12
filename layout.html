@@ -1,233 +1,72 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <title>Eugene Meter Pay</title>
-    <meta name="description" content="Pay for meters in Eugene">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-    <style>
-        html,
-        body {
-            background: #222;
-            margin-right: 0;
-            margin-left: 0;
-        }
-        h1 {
-            color: #00C853;
-            font-family: Verdana, Geneva, sans-serif;
-        }
-        .button {
-            background-color: #00C853;
-            border: none;
-            color: white;
-            padding: 0px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            font-family: Verdana, Geneva, sans-serif;
-            cursor: pointer;
-            width: 250px;
-            height: 60px;
-            text-align: center;
-            position: relative;
-            display: table;
-            overflow: hidden;
-        }
-        .pay-button {
-            background-color: #00C853;
-            border: none;
-            color: white;
-            padding: 0px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            font-family: Verdana, Geneva, sans-serif;
-            cursor: pointer;
-            width: 100%;
-            height: 75px;
-            text-align: center;
-            position: relative;
-            display: table;
-            overflow: hidden;
-        }
-        .inner {
-            display: table-cell;
-            vertical-align: middle;
-        }
-        .unselectable {
-            -moz-user-select: none;
-            -khtml-user-select: none;
-            -webkit-user-select: none;
-            -o-user-select: none;
-        }
-        a {
-            text-decoration: none;
-        }
-        .top {
-            margin-top: 10%;
-        }
-    </style>
-
-    <script>
-        $(document).ready(function() {
-            var error = "{{error}}";
-
-            if (error) {
-                $(".error").show();
-            } else {
-                $(".error").hide();
-            }
-        });
-
-        var time = 0;
-
-        var keys = {
-            37: 1,
-            38: 1,
-            39: 1,
-            40: 1
-        };
-
-        function preventDefault(e) {
-            e = e || window.event;
-            if (e.preventDefault)
-                e.preventDefault();
-            e.returnValue = false;
-        }
-
-        function preventDefaultForScrollKeys(e) {
-            if (keys[e.keyCode]) {
-                preventDefault(e);
-                return false;
-            }
-        }
-
-        function disableScroll() {
-            if (window.addEventListener) // older FF
-                window.addEventListener("DOMMouseScroll", preventDefault, false);
-            window.onwheel = preventDefault; // modern standard
-            window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
-            window.ontouchmove = preventDefault; // mobile
-            document.onkeydown = preventDefaultForScrollKeys;
-        }
-
-        function addTime() {
-            if (time < 210) {
-                time = time + 5;
-            }
-
-            updateMinutes(time);
-        }
-
-        function removeTime() {
-            if (time >= 5) {
-                time = time - 5;
-            }
-
-            updateMinutes(time);
-        }
-
-        function updateMinutes(t) {
-            document.getElementById("time").innerHTML = hour(t) + ":" + minute(t);
-
-            $("#totalsub").val(t);
-        }
-
-        function hour(minutes) {
-            return Math.floor(minutes / 60)
-        }
-
-        function minute(minutes) {
-            var minutes = Math.floor(minutes % 60);
-
-            if (minutes < 10) {
-                return "0" + Math.floor(minutes % 60);
-            } else {
-                return Math.floor(minutes % 60);
-            }
-        }
-
-        function getTotalMinutes(formattedTime) {
-            return parseInt(formattedTime.split(":")[0] * 60) + parseInt(formattedTime.split(":")[1]);
-        }
-
-        disableScroll();
-    </script>
-</head>
-
-<body>
-    <center class="error">
-        <div class="alert alert-danger" style="width: 70%; top: 25px; right: 0; left: 0; margin-right: auto; margin-left: auto; position: fixed; ">
-            <strong>{{error}}</strong>
-        </div>
-    </center>
-    <center class="top">
-        <a href="javascript:addTime()">
-            <div class="button unselectable">
+    <head>
+        <title>Eugene Meter Pay</title>
+        <meta name="description" content="Pay for meters in Eugene">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+        
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+        <!-- Main style -->
+        <link rel="stylesheet" href="/css/style.css">
+        
+        <!-- SweetAlert2 style -->
+        <link rel="stylesheet" href="/sweetalert2/sweetalert2.css">
+        
+        <script>
+            $(document).ready(function() {
+                var error = "{{error}}";
+            
+                if (error && error !== "undefined") {
+                    $(".error").show();
+                } else {
+                    $(".error").hide();
+                }
+            
+                $("#add").click(addTime);
+                
+                $("#remove").click(removeTime);
+            });
+        </script>
+    </head>
+    <body>
+        <center class="error">
+            <div class="alert alert-danger" style="width: 70%; top: 25px; right: 0; left: 0; margin-right: auto; margin-left: auto; position: fixed; ">
+                <strong>{{error}}</strong>
+            </div>
+        </center>
+        <center class="top">
+            <div id="add" class="button unselectable">
                 <div class="inner">
                     ADD 5 MINUTES
                 </div>
             </div>
-        </a>
-        <h1 id="time" class="unselectable">0:00</h1>
-        <a href="javascript:removeTime()">
-            <div class="button unselectable">
+            <h1 id="time" class="unselectable">0:00</h1>
+            <div id="remove" class="button unselectable">
                 <div class="inner">
                     REMOVE 5 MINUTES
                 </div>
             </div>
-        </a>
-        <br>
-        <br>
-        <br>
-        <a href="#" data-toggle="modal" data-target="#paymentModal">
-            <div class="pay-button unselectable">
-                <div class="inner">
-                    Pay
-                </div>
-            </div>
-        </a>
-    </center>
-
-    <div class="modal fade" id="paymentModal" role="dialog">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Payment Details</h4>
-                </div>
-                <form action="/pay" method="GET">
-                    <div class="modal-body">
-                        <input name="card" placeholder="Credit Card Number"></input>
-                        <br/>
-                        <input name="cvc" placeholder="Credit Card CVC"></input>
-                        <br/>
-                        <input name="exp_month" placeholder="Expiration Month"></input>
-                        <br/>
-                        <input name="exp_year" placeholder="Expiration Year"></input>
-                        <br/>
-                        <input id="totalsub" name="minutes"></input>
+            <br>
+            <br>
+            <br>
+            <a href="javascript:displayAlert()">
+                <div class="pay-button unselectable">
+                    <div class="inner">
+                        PAY
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-info">Submit</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
-
+                </div>
+            </a>
+        </center>
+        
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        
+        <!-- SweetAlert2 JS -->
+        <script src="/sweetalert2/sweetalert2.min.js"></script>
+        
+        <!-- Main JS -->
+        <script src="/js/main.js"></script>
+    </body>
 </html>
