@@ -41,7 +41,7 @@ function getTotalMinutes(formattedTime) {
 function displayAlert() {
     swal({
         title: "Payment",
-        html: "<p><input id="meter" name="meter" placeholder="Meter Number"></input><br><input id="card" name="card" placeholder="Card Number"></input><br><input id="cvc" name="cvc" placeholder="Card CVC"></input><br><input id="exp_month" name="exp_month" placeholder="Expiration Month"></input><br><input id="exp_year" name="exp_year" placeholder="Expiration Year"></input>",
+        html: "<p><input id=\"meter\" name=\"meter\" placeholder=\"Meter Number\"></input><br><input id=\"card\" name=\"card\" placeholder=\"Card Number\"></input><br><input id=\"cvc\" name=\"cvc\" placeholder=\"Card CVC\"></input><br><input id=\"exp_month\" name=\"exp_month\" placeholder=\"Expiration Month\"></input><br><input id=\"exp_year\" name=\"exp_year\" placeholder=\"Expiration Year\"></input>",
         showCancelButton: true,
         closeOnConfirm: false
     }, function() {
