@@ -50,14 +50,14 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
                             "error": false,
                             "startTime": startTime,
                             "totalTime": totalTime,
-                            "time": hour(minutes) + ":" + minute(minutes)
+                            "load": "loading..."
                         }));
                     } else {
                         res.end(remain({
                             "error": false,
                             "startTime": 0,
                             "totalTime": 0,
-                            "time": hour(0) + ":" + minute(0)
+                            "load": "0:00"
                         }));
                     }
                 } else {
@@ -65,7 +65,7 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
                         "error": true,
                         "startTime": 0,
                         "totalTime": 0,
-                        "time": "0:00"
+                        "load": "0:00"
                     }));
                 }
             });
@@ -146,14 +146,14 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
                                 "error": false,
                                 "startTime": startTime,
                                 "totalTime": totalTime,
-                                "time": hour(minutes) + ":" + minute(minutes)
+                                "load": "loading..."
                             }));
                         } else {
                             res.end(remain({
                                 "error": false,
                                 "startTime": 0,
                                 "totalTime": 0,
-                                "time": hour(0) + ":" + minute(0)
+                                "load": "0:00"
                             }));
                         }
                     } else {
@@ -161,7 +161,7 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
                             "error": true,
                             "startTime": 0,
                             "totalTime": 0,
-                            "time": "0:00"
+                            "load": "0:00"
                         }));
                     }
                 });
@@ -184,18 +184,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-
-function hour(t) {
-    return Math.floor(t / 60);
-}
-
-function minute(t) {
-    if (t < 10) {
-        return "0" + Math.floor(t % 60);
-    } else {
-        return Math.floor(t % 60);
-    }
-}
 
 app.listen(port, function() {
     console.log("Listening on port", port);
