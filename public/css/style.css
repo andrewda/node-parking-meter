@@ -4,14 +4,12 @@ body {
     margin-right: 0;
     margin-left: 0;
 }
-
 h1 {
     color: #00C853;
     font-family: Verdana, Geneva, sans-serif;
 }
-
 .button {
-    background-color: #00C853;
+    background-color: #4CAF50;
     border: none;
     color: white;
     padding: 0px;
@@ -28,9 +26,8 @@ h1 {
     display: table;
     overflow: hidden;
 }
-
 .pay-button {
-    background-color: #00C853;
+    background-color: #4CAF50;
     border: none;
     color: white;
     padding: 0px;
@@ -47,23 +44,117 @@ h1 {
     display: table;
     overflow: hidden;
 }
-
 .inner {
     display: table-cell;
     vertical-align: middle;
 }
-
 .unselectable {
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
     -o-user-select: none;
 }
-
 a {
     text-decoration: none;
 }
-
 .top {
     margin-top: 10%;
+}
+/* */
+
+.form-style-8 input[type="text"],
+.form-style-8 input[type="date"],
+.form-style-8 input[type="datetime"],
+.form-style-8 input[type="email"],
+.form-style-8 input[type="number"],
+.form-style-8 input[type="search"],
+.form-style-8 input[type="time"],
+.form-style-8 input[type="url"],
+.form-style-8 input[type="password"],
+.form-style-8 textarea,
+.form-style-8 select {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 3px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    margin-bottom: 6px;
+    font: 16px Arial, Helvetica, sans-serif;
+    height: 30px;
+}
+.form-style-8 input[type="button"],
+.form-style-8 input[type="submit"] {
+    -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    background-color: #2CBBBB;
+    border: 1px solid #27A0A0;
+    display: inline-block;
+    cursor: pointer;
+    color: #FFFFFF;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 14px;
+    padding: 5px 9px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.form-style-8 input[type="button"]:hover,
+.form-style-8 input[type="submit"]:hover {
+    background: linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
+    background-color: #34CACA;
+}
+/* */
+
+.flat-table {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    border: none;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+.flat-table th,
+.flat-table td {
+    box-shadow: inset 0 -1px rgba(0, 0, 0, 0.15), inset 0 1px rgba(0, 0, 0, 0.15);
+}
+.flat-table th {
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    padding: 1em;
+    color: rgba(0, 0, 0, 0.45);
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+    font-size: 1.5em;
+}
+.flat-table td {
+    color: #f7f7f7;
+    padding: 0.7em 1em 0.7em 1.15em;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
+    font-size: 1.4em;
+}
+.flat-table tr {
+    -webkit-transition: background 0.3s, box-shadow 0.3s;
+    -moz-transition: background 0.3s, box-shadow 0.3s;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+.header {
+    background: rgb(51, 108, 166);
+}
+.red {
+    background: rgb(240, 96, 96);
+}
+.red:hover {
+    background: rgba(240, 96, 96, 0.7);
+}
+.green {
+    background: rgb(82, 190, 127);
+}
+.green:hover {
+    background: rgba(82, 190, 127, 0.7);
 }

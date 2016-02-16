@@ -19,26 +19,22 @@
         
         <script>
             $(document).ready(function() {
-                var error = "{{error}}";
-            
-                if (error && error !== "undefined") {
-                    $(".error").show();
-                } else {
-                    $(".error").hide();
-                }
-            
                 $("#add").click(addTime);
                 
                 $("#remove").click(removeTime);
+                
+                $("#pay").click(payAlert);
             });
         </script>
     </head>
     <body>
+        {{#if error}}
         <center class="error">
             <div class="alert alert-danger" style="width: 70%; top: 25px; right: 0; left: 0; margin-right: auto; margin-left: auto; position: fixed; ">
                 <strong>{{error}}</strong>
             </div>
         </center>
+        {{/if}}
         <center class="top">
             <div id="add" class="button unselectable">
                 <div class="inner">
@@ -54,13 +50,11 @@
             <br>
             <br>
             <br>
-            <a href="javascript:displayAlert()">
-                <div class="pay-button unselectable">
-                    <div class="inner">
-                        PAY
-                    </div>
+            <div id="pay" class="pay-button unselectable">
+                <div class="inner">
+                    PAY
                 </div>
-            </a>
+            </div>
         </center>
         
         <!-- SweetAlert2 JS -->

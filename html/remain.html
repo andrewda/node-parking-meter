@@ -18,19 +18,21 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         
         <script>
-            var startTime = {{startTime}};
-            var totalTime = {{totalTime}};
-        
-            $(document).ready(timer);
+            $(document).ready(function() {
+                var startTime = {{startTime}};
+                var totalTime = {{totalTime}};
             
-            setInterval(timer, 5000);
-            
-            function timer() {
-                var seconds = startTime - Math.floor(Date.now() / 1000) + totalTime;
-                var minutes = Math.round(seconds / 60);
+                $(document).ready(timer);
                 
-                updateMinutes(minutes);
-            }
+                setInterval(timer, 5000);
+                
+                function timer() {
+                    var seconds = startTime - Math.floor(Date.now() / 1000) + totalTime;
+                    var minutes = Math.round(seconds / 60);
+                    
+                    updateMinutes(minutes);
+                }
+            });
         </script>
     </head>
     <body>

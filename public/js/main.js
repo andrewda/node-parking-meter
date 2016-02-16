@@ -38,24 +38,41 @@ function getTotalMinutes(formattedTime) {
     return parseInt(formattedTime.split(":")[0] * 60) + parseInt(formattedTime.split(":")[1]);
 }
 
-function displayAlert() {
+function payAlert() {
     swal({
-        title: "Payment",
-        html: "<p><input id=\"meter\" name=\"meter\" placeholder=\"Meter Number\"></input><br><input id=\"card\" name=\"card\" placeholder=\"Card Number\"></input><br><input id=\"cvc\" name=\"cvc\" placeholder=\"Card CVC\"></input><br><input id=\"exp_month\" name=\"exp_month\" placeholder=\"Expiration Month\"></input><br><input id=\"exp_year\" name=\"exp_year\" placeholder=\"Expiration Year\"></input>",
-        showCancelButton: true,
+        title: "Meter",
+        html: "<div class=\"form-style-8\">\
+               <span class=\"time-message\">You are about to add " + $("#time").text() + " to your meter.</span><br><br>\
+               <input type=\"text\" id=\"meter\" name=\"meter\" placeholder=\"Meter Number\" /><br>\
+               </div>",
+        showCancelButton: false,
         closeOnConfirm: false
     }, function() {
-        if ($("#meter").val() && $("#card").val() && $("#cvc").val() && $("#exp_month").val() && $("#exp_year").val()) {
-            post("/meter/" + $("#meter").val(), {
-                "card": $("#card").val(),
-                "cvc": $("#cvc").val(),
-                "exp_month": $("#exp_month").val(),
-                "exp_year": $("#exp_year").val(),
-                "minutes": getTotalMinutes($("#time").text())
-            });
-        } else {
-            swal("Error", "Please make sure all information was entered correctly.", "error");
-        }
+        var meter = $("#meter").val();
+        
+        swal({
+            title: "Payment",
+            html: "<div class=\"form-style-8\">\
+                   <input type=\"text\" id=\"card\" name=\"card\" placeholder=\"Card Number\" /><br>\
+                   <input type=\"text\" id=\"cvc\" name=\"cvc\" placeholder=\"Card CVC\" /><br>\
+                   <input type=\"text\" id=\"exp_month\" name=\"exp_month\" placeholder=\"Expiration Month\" /><br>\
+                   <input type=\"text\" id=\"exp_year\" name=\"exp_year\" placeholder=\"Expiration Year\" />\
+                   </div>",
+            showCancelButton: true,
+            closeOnConfirm: false
+        }, function() {
+            if (meter && $("#card").val() && $("#cvc").val() && $("#exp_month").val() && $("#exp_year").val()) {
+                post("/meter/" + meter, {
+                    "card": $("#card").val(),
+                    "cvc": $("#cvc").val(),
+                    "exp_month": $("#exp_month").val(),
+                    "exp_year": $("#exp_year").val(),
+                    "minutes": getTotalMinutes($("#time").text())
+                });
+            } else {
+                swal("Error", "Please make sure all information was entered correctly.", "error");
+            }
+        });
     });
 }
 
