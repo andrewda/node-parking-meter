@@ -38,8 +38,6 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
         });
         
         app.get("/admin", function(req, res) {
-            var query = req.query;
-            
             var cursor = db.collection("meters").find().sort({
                 meter: 1
             });
