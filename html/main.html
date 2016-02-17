@@ -13,24 +13,11 @@
         
         <!-- SweetAlert2 style -->
         <link rel="stylesheet" href="/sweetalert2/sweetalert2.css">
-        
-        <!-- jQuery library -->
-        <script src="/js/jquery.min.js"></script>
-        
-        <script>
-            $(document).ready(function() {
-                $("#add").click(addTime);
-                
-                $("#remove").click(removeTime);
-                
-                $("#pay").click(payAlert);
-            });
-        </script>
     </head>
     <body>
         {{#if error}}
         <center class="error">
-            <div class="alert alert-danger" style="width: 70%; top: 25px; right: 0; left: 0; margin-right: auto; margin-left: auto; position: fixed; ">
+            <div class="alert alert-danger" style="width: 70%; top: 25px; right: 0; left: 0; margin-right: auto; margin-left: auto; position: fixed;">
                 <strong>{{error}}</strong>
             </div>
         </center>
@@ -60,7 +47,20 @@
         <!-- SweetAlert2 JS -->
         <script src="/sweetalert2/sweetalert2.min.js"></script>
         
+        <!-- jQuery library -->
+        <script src="/js/jquery.min.js"></script>
+        
         <!-- Main JS -->
         <script src="/js/main.js"></script>
+        
+        <script>
+            $(document).ready(function() {
+                $("#add").click(addTime);
+                
+                $("#remove").click(removeTime);
+                
+                $("#pay").click(payAlert);
+            });
+        </script>
     </body>
 </html>

@@ -18,7 +18,7 @@ function removeTime() {
 
 function updateMinutes(t) {
     if (t >= 0) {
-        document.getElementById("time").innerHTML = hour(t) + ":" + minute(t);
+        $("#time").html(hour(t) + ":" + minute(t));
     }
 }
 

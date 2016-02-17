@@ -13,16 +13,27 @@
         
         <!-- SweetAlert2 style -->
         <link rel="stylesheet" href="/sweetalert2/sweetalert2.css">
+    </head>
+    <body>
+        <center class="top">
+            <h1 id="time" class="unselectable" data-startTime={{startTime}} data-totalTime={{totalTime}}>{{load}}</h1>
+        </center>
+        
+        <!-- SweetAlert2 JS -->
+        <script src="/sweetalert2/sweetalert2.min.js"></script>
         
         <!-- jQuery library -->
         <script src="/js/jquery.min.js"></script>
         
+        <!-- Main JS -->
+        <script src="/js/main.js"></script>
+        
         <script>
             $(document).ready(function() {
-                var startTime = {{startTime}};
-                var totalTime = {{totalTime}};
+                var startTime = parseInt($("#time").attr("data-startTime"));
+                var totalTime = parseInt($("#time").attr("data-totalTime"));
             
-                $(document).ready(timer);
+                timer();
                 
                 setInterval(timer, 5000);
                 
@@ -34,16 +45,5 @@
                 }
             });
         </script>
-    </head>
-    <body>
-        <center class="top">
-            <h1 id="time" class="unselectable">{{load}}</h1>
-        </center>
-        
-        <!-- SweetAlert2 JS -->
-        <script src="/sweetalert2/sweetalert2.min.js"></script>
-        
-        <!-- Main JS -->
-        <script src="/js/main.js"></script>
     </body>
 </html>

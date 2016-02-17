@@ -1,59 +1,57 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <title>Eugene Meter Pay</title>
-    <meta name="description" content="Pay for meters in Eugene">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    <!-- Main style -->
-    <link rel="stylesheet" href="/css/style.css">
-
-    <!-- SweetAlert2 style -->
-    <link rel="stylesheet" href="/sweetalert2/sweetalert2.css">
-
-    <!-- jQuery library -->
-    <script src="/js/jquery.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $.each($(".total"), function(key, element) {
-                element.innerHTML = (hour(element.getAttribute("data")) + ":" + minute(element.getAttribute("data")));
+    <head>
+        <title>Eugene Meter Pay</title>
+        <meta name="description" content="Pay for meters in Eugene">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+        
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        
+        <!-- SweetAlert2 style -->
+        <link rel="stylesheet" href="/sweetalert2/sweetalert2.css">
+        
+        <!-- Main style -->
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
+    
+    <body>
+        <center>
+            <table class="flat-table">
+                <tr class="header">
+                    <th>Meter #</th>
+                    <th>Time Remaining</th>
+                    <th>Total Time</th>
+                </tr>
+                {{#each meters}}
+                <tr id="{{this.meter}}" class="{{this.color}}">
+                    <td class="meter" data={{this.meter}}>{{this.meter}}</td>
+                    <td class="remaining" data={{this.remaining}}></td>
+                    <td class="total" data={{this.total}}></td>
+                </tr>
+                {{/each}}
+            </table>
+        </center>
+        
+        <!-- SweetAlert2 JS -->
+        <script src="/sweetalert2/sweetalert2.min.js"></script>
+        
+        <!-- jQuery library -->
+        <script src="/js/jquery.min.js"></script>
+        
+        <!-- Main JS -->
+        <script src="/js/main.js"></script>
+        
+        <script>
+            $(document).ready(function() {
+                $.each($(".total"), function(key, element) {
+                    $(element).html(hour($(element).attr("data")) + ":" + minute($(element).attr("data")))
+                });
+                
+                $.each($(".remaining"), function(key, element) {
+                    $(element).html(hour($(element).attr("data")) + ":" + minute($(element).attr("data")))
+                });
             });
-            
-            $.each($(".remaining"), function(key, element) {
-                element.innerHTML = (hour(element.getAttribute("data")) + ":" + minute(element.getAttribute("data")));
-            });
-        });
-    </script>
-</head>
-
-<body>
-    <center>
-        <table class="flat-table">
-            <tr class="header">
-                <th>Meter #</th>
-                <th>Time Remaining</th>
-                <th>Total Time</th>
-            </tr>
-            {{#each meters}}
-            <tr id="{{this.meter}}" class="{{this.color}}">
-                <td class="meter" data={{this.meter}}>{{this.meter}}</td>
-                <td class="remaining" data={{this.remaining}}></td>
-                <td class="total" data={{this.total}}></td>
-            </tr>
-            {{/each}}
-        </table>
-    </center>
-
-    <!-- SweetAlert2 JS -->
-    <script src="/sweetalert2/sweetalert2.min.js"></script>
-
-    <!-- Main JS -->
-    <script src="/js/main.js"></script>
-</body>
-
+        </script>
+    </body>
 </html>
