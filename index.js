@@ -1,7 +1,6 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
-//var beacon = require("eddystone-beacon");
 var handlebars = require("handlebars");
 var MongoClient = require("mongodb").MongoClient;
 var fs = require("fs");
@@ -23,32 +22,32 @@ var main = handlebars.compile(fs.readFileSync("./html/main.html", "utf8"));
 var remain = handlebars.compile(fs.readFileSync("./html/remain.html", "utf8"));
 var admin = handlebars.compile(fs.readFileSync("./html/admin.html", "utf8"));
 
-MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mongodb.password + "@" + options.mongodb.database, function(err, db) {
+MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mongodb.password + "@" + options.mongodb.database, function (err, db) {
     if (err) {
         console.log(err);
     } else {
         console.log("MongoDB connected");
-        
-        app.get("/", function(req, res) {
+
+        app.get("/", function (req, res) {
             var query = req.query;
 
             res.end(main({
                 error: query.err
             }));
         });
-        
-        app.get("/admin", function(req, res) {
+
+        app.get("/admin", function (req, res) {
             var cursor = db.collection("meters").find().sort({
                 meter: 1
             });
 
-            cursor.toArray(function(err, docs) {
+            cursor.toArray(function (err, docs) {
                 if (err) {
                     console.log(err);
                 } else {
                     var meters = [];
-                    
-                    docs.forEach(function(doc) {
+
+                    docs.forEach(function (doc) {
                         meters.push({
                             meter: doc.meter,
                             color: doc.startTime + doc.totalTime - Math.floor(Date.now() / 1000) > 0 ? "green" : "red",
@@ -56,7 +55,7 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
                             total: doc.totalTime / 60
                         });
                     });
-                    
+
                     res.end(admin({
                         meters: meters
                     }));
@@ -64,44 +63,70 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
             });
         });
 
-        app.get("/meter/:meter", function(req, res) {
-            var cursor = db.collection("meters").find({
-                meter: parseInt(req.params.meter)
+        app.get("/meters", function (req, res) {
+            var cursor = db.collection("meters").find().sort({
+                meter: 1
             });
 
-            cursor.each(function(err, doc) {
-                if (doc !== null) {
-                    var startTime = parseInt(doc.startTime);
-                    var totalTime = parseInt(doc.totalTime);
-
-                    var seconds = startTime - Math.floor(Date.now() / 1000) + totalTime;
-                    var minutes = Math.round(seconds / 60);
-
-                    if (minutes > 0) {
-                        res.end(remain({
-                            startTime: startTime,
-                            totalTime: totalTime,
-                            load: "loading..."
-                        }));
-                    } else {
-                        res.end(remain({
-                            startTime: 0,
-                            totalTime: 0,
-                            load: "0:00"
-                        }));
-                    }
+            cursor.toArray(function (err, docs) {
+                if (err) {
+                    res.json({
+                        success: false,
+                        err: err
+                    });
                 } else {
-                    res.end(remain({
-                        error: true,
-                        startTime: 0,
-                        totalTime: 0,
-                        load: "0:00"
-                    }));
+                    res.json({
+                        success: true,
+                        meters: docs
+                    });
                 }
             });
         });
 
-        app.post("/meter/:meter", function(req, res) {
+        app.get("/meter/:meter", function (req, res) {
+            var cursor = db.collection("meters").find({
+                meter: parseInt(req.params.meter)
+            });
+
+            cursor.toArray(function (err, docs) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    if (docs.length > 0) {
+                        var startTime = parseInt(docs[0].startTime);
+                        var totalTime = parseInt(docs[0].totalTime);
+
+                        var seconds = startTime - Math.floor(Date.now() / 1000) + totalTime;
+                        var minutes = Math.round(seconds / 60);
+
+                        if (minutes > 0) {
+                            res.end(remain({
+                                startTime: startTime,
+                                totalTime: totalTime,
+                                load: "loading..."
+                            }));
+                        } else {
+                            res.end(remain({
+                                startTime: 0,
+                                totalTime: 0,
+                                load: "0:00"
+                            }));
+                        }
+
+                        return;
+                    }
+                }
+
+                res.end(remain({
+                    error: "Meter " + req.params.meter + " does not exist",
+                    startTime: 0,
+                    totalTime: 0,
+                    load: "0:00"
+                }));
+            });
+        });
+
+        app.post("/meter/:meter", function (req, res) {
             var query = req.body;
 
             if (query.minutes && query.card && query.exp_month && query.exp_year && query.cvc) {
@@ -116,20 +141,20 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
                         cvc: query.cvc
                     },
                     description: "Parking meter charge"
-                }, function(err, charge) {
+                }, function (err, charge) {
                     if (err) {
                         console.log(err.message);
-                        
+
                         res.redirect("/?err=" + encodeURI(err.message));
                     } else {
                         db.collection("meters").find({
                             meter: parseInt(req.params.meter)
-                        }).toArray(function(err, docs) {
+                        }).toArray(function (err, docs) {
                             if (err) {
                                 console.log(err);
                             } else {
                                 if (docs.length > 0) {
-                                    docs.forEach(function(doc) {
+                                    docs.forEach(function (doc) {
                                         if (doc.startTime + doc.totalTime <= Math.floor(Date.now() / 1000)) {
                                             db.collection("meters").update({
                                                 meter: parseInt(req.params.meter)
@@ -138,15 +163,13 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
                                                     startTime: Math.floor(Date.now() / 1000),
                                                     totalTime: query.minutes * 60
                                                 }
-                                            }, function(err) {
+                                            }, function (err) {
                                                 if (err) {
                                                     console.log(err);
                                                 }
-                                                
+
                                                 finish();
                                             });
-                                            
-                                            finish();
                                         } else {
                                             db.collection("meters").update({
                                                 meter: parseInt(req.params.meter)
@@ -154,11 +177,11 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
                                                 $set: {
                                                     totalTime: doc.totalTime + query.minutes * 60
                                                 }
-                                            }, function(err) {
+                                            }, function (err) {
                                                 if (err) {
                                                     console.log(err);
                                                 }
-                                                
+
                                                 finish();
                                             });
                                         }
@@ -168,9 +191,11 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
                                         meter: parseInt(req.params.meter),
                                         startTime: Math.floor(Date.now() / 1000),
                                         totalTime: query.minutes * 60
-                                    }, function(err) {
-                                        console.log(err);
-                                        
+                                    }, function (err) {
+                                        if (err) {
+                                            console.log(err);
+                                        }
+
                                         finish();
                                     });
                                 }
@@ -186,36 +211,42 @@ MongoClient.connect("mongodb://" + options.mongodb.username + ":" + options.mong
                 var cursor = db.collection("meters").find({
                     meter: parseInt(req.params.meter)
                 });
-    
-                cursor.each(function(err, doc) {
-                    if (doc !== null) {
-                        var startTime = parseInt(doc.startTime);
-                        var totalTime = parseInt(doc.totalTime);
-    
-                        var seconds = startTime - Math.floor(Date.now() / 1000) + totalTime;
-                        var minutes = Math.round(seconds / 60);
-    
-                        if (minutes > 0) {
-                            res.end(remain({
-                                startTime: startTime,
-                                totalTime: totalTime,
-                                load: "loading..."
-                            }));
-                        } else {
-                            res.end(remain({
-                                startTime: 0,
-                                totalTime: 0,
-                                load: "0:00"
-                            }));
-                        }
+
+                cursor.toArray(function (err, docs) {
+                    if (err) {
+                        console.log(err);
                     } else {
-                        res.end(remain({
-                            error: true,
-                            startTime: 0,
-                            totalTime: 0,
-                            load: "0:00"
-                        }));
+                        if (docs.length > 0) {
+                            var startTime = parseInt(docs[0].startTime);
+                            var totalTime = parseInt(docs[0].totalTime);
+
+                            var seconds = startTime - Math.floor(Date.now() / 1000) + totalTime;
+                            var minutes = Math.round(seconds / 60);
+
+                            if (minutes > 0) {
+                                res.end(remain({
+                                    startTime: startTime,
+                                    totalTime: totalTime,
+                                    load: "loading..."
+                                }));
+                            } else {
+                                res.end(remain({
+                                    startTime: 0,
+                                    totalTime: 0,
+                                    load: "0:00"
+                                }));
+                            }
+
+                            return;
+                        }
                     }
+
+                    res.end(remain({
+                        error: "Meter " + req.params.meter + " does not exist",
+                        startTime: 0,
+                        totalTime: 0,
+                        load: "0:00"
+                    }));
                 });
             }
         });
@@ -229,8 +260,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.listen(port, function() {
+app.listen(port, function () {
     console.log("Listening on port", port);
 });
-
-//beacon.advertiseUrl(options.url);

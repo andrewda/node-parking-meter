@@ -7,7 +7,6 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.0",
-    "eddystone-beacon": "^1.0.5",
     "handlebars": "^2.0.0",
     "mongodb": "^2.1.7",
     "stripe": "^4.4.0"
