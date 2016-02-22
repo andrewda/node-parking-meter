@@ -4,13 +4,13 @@
         <title>Eugene Meter Pay</title>
         <meta name="description" content="Pay for meters in Eugene">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-        
+
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="/css/bootstrap.min.css">
-        
+
         <!-- Main style -->
         <link rel="stylesheet" href="/css/style.css">
-        
+
         <!-- SweetAlert2 style -->
         <link rel="stylesheet" href="/sweetalert2/sweetalert2.css">
     </head>
@@ -43,22 +43,25 @@
                 </div>
             </div>
         </center>
-        
+
         <!-- SweetAlert2 JS -->
         <script src="/sweetalert2/sweetalert2.min.js"></script>
-        
+
         <!-- jQuery library -->
         <script src="/js/jquery.min.js"></script>
-        
+
         <!-- Main JS -->
         <script src="/js/main.js"></script>
-        
+
         <script>
             $(document).ready(function() {
+                // When the user clicks the add button, add time.
                 $("#add").click(addTime);
-                
+
+                // When the user clicks the remove button, remove time.
                 $("#remove").click(removeTime);
-                
+
+                // When the user clicks the pay button, show the pay alert.
                 $("#pay").click(payAlert);
             });
         </script>
