@@ -1,6 +1,6 @@
 {
   "name": "node-parking-meter",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Pay for parking meters using Node.js",
   "main": "index.js",
   "author": "Andrew Dassonville",
