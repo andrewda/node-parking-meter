@@ -28,9 +28,9 @@ function hour(minutes) {
 
 function minute(minutes) {
     if (Math.floor(minutes % 60) < 10) {
-        return "0" + Math.floor(minutes % 60);
+        return "0" + Math.round(minutes % 60);
     } else {
-        return Math.floor(minutes % 60);
+        return Math.round(minutes % 60);
     }
 }
 
