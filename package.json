@@ -4,7 +4,7 @@
   "description": "Pay for parking meters using Node.js",
   "main": "index.js",
   "author": "Andrew Dassonville",
-  "license": "MIT",
+  "license": "GNU",
   "dependencies": {
     "body-parser": "^1.15.0",
     "handlebars": "^2.0.0",
