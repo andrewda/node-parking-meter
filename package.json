@@ -7,7 +7,7 @@
   "license": "GNU",
   "dependencies": {
     "body-parser": "^1.15.0",
-    "handlebars": "^2.0.0",
+    "handlebars": "^4.4.3",
     "mongodb": "^2.1.7",
     "stripe": "^4.4.0"
   }
